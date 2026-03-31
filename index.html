@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ランドセル試着フィット比較</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --line: #d8e0ea;
+      --text: #1f2a37;
+      --muted: #5f6b7a;
+      --accent: #1f6feb;
+      --accent-soft: #e8f0ff;
+      --good: #0f766e;
+      --warn: #b45309;
+      --bad: #b42318;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1000px 500px at 100% -20%, #eef5ff 0%, rgba(238, 245, 255, 0) 70%),
+        linear-gradient(180deg, #fbfdff 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(980px, 100%);
+      margin: 0 auto;
+      padding: 16px 14px 28px;
+    }
+
+    .header {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.28rem;
+      letter-spacing: 0.01em;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1fr;
+    }
+
+    .bag-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    .bag-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .badge {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid #bdd3ff;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .name-input {
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 1rem;
+      color: var(--text);
+      background: #fff;
+    }
+
+    input[type="text"]:focus {
+      outline: 2px solid #dce9ff;
+      border-color: #94b8ff;
+    }
+
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 0.96rem;
+      color: var(--text);
+      background: #fff;
+      resize: vertical;
+      min-height: 92px;
+    }
+
+    textarea:focus {
+      outline: 2px solid #dce9ff;
+      border-color: #94b8ff;
+    }
+
+    .question {
+      border: 1px solid #e6edf5;
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #fcfdff;
+    }
+
+    .q-title {
+      margin: 0 0 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .options {
+      display: grid;
+      gap: 8px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      background: #fff;
+      min-height: 50px;
+    }
+
+    .option input[type="radio"] {
+      width: 19px;
+      height: 19px;
+      margin-right: 10px;
+      accent-color: var(--accent);
+      flex: none;
+    }
+
+    .option span {
+      line-height: 1.35;
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .extra-box {
+      border: 1px solid #e6edf5;
+      border-radius: 12px;
+      padding: 10px;
+      margin-top: 8px;
+      background: #fcfdff;
+    }
+
+    .extra-title {
+      margin: 0 0 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .check-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      background: #fff;
+      min-height: 48px;
+    }
+
+    .check-item input[type="checkbox"] {
+      width: 19px;
+      height: 19px;
+      margin-right: 10px;
+      accent-color: var(--accent);
+      flex: none;
+    }
+
+    .photo-hint {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 10px;
+      background: #fff;
+      font-size: 0.92rem;
+      margin-bottom: 10px;
+    }
+
+    .photo-types {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .photo-preview {
+      border: 1px solid #d9e5f6;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .photo-preview img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      max-height: 320px;
+    }
+
+    .comment-box {
+      margin-top: 8px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #d8e8ff;
+      background: #f3f8ff;
+      font-size: 0.93rem;
+      line-height: 1.6;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 13px 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: #e8edf4;
+      color: #2d3748;
+    }
+
+    .result-wrap {
+      margin-top: 22px;
+      padding-top: 8px;
+      border-top: 2px dashed #d6e3f7;
+    }
+
+    .result {
+      margin-top: 0;
+      background: #fff;
+      border: 1px solid #d1dded;
+      border-radius: 18px;
+      padding: 18px 14px 16px;
+      box-shadow: 0 8px 24px rgba(22, 34, 58, 0.06);
+    }
+
+    .result h2 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+    }
+
+    .bag-result {
+      border: 1px solid #dde7f5;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+      background: #fcfdff;
+    }
+
+    .score-line {
+      margin: 6px 0;
+      font-size: 0.96rem;
+      line-height: 1.45;
+    }
+
+    .score-main {
+      font-size: 1.04rem;
+      font-weight: 800;
+    }
+
+    .status {
+      font-weight: 700;
+      margin-left: 8px;
+    }
+
+    .good { color: var(--good); }
+    .warn { color: var(--warn); }
+    .bad { color: var(--bad); }
+
+    .comparison {
+      margin-top: 8px;
+      padding: 10px;
+      border-radius: 10px;
+      background: #f2f7ff;
+      border: 1px solid #d9e8ff;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .notes {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      background: #fff;
+      border: 1px dashed #cdd8e6;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    @media (min-width: 800px) {
+      .container {
+        padding: 22px 18px 30px;
+      }
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .result {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="header">
+      <h1>ランドセル試着フィット比較ツール</h1>
+      <p class="subtitle">
+        まず横向き写真を任意で確認し、その後に目視チェックを入力してランドセルA・Bを比較します。
+      </p>
+    </section>
+
+    <form id="fitForm">
+      <section class="grid">
+        <article class="bag-card">
+          <h2 class="bag-title"><span class="badge">A</span>ランドセルA</h2>
+          <div class="name-input">
+            <label for="nameA">名前（任意）</label>
+            <input id="nameA" type="text" placeholder="例：軽量モデルA">
+          </div>
+
+          <div class="extra-box">
+            <h3 class="extra-title">横向き写真アップ（任意）</h3>
+            <p class="photo-hint">顔は映さないでください / 背景はシンプル推奨 / これは参考チェックです</p>
+            <input id="photoA" type="file" accept="image/*">
+            <div class="photo-preview" id="previewWrapA" hidden>
+              <img id="previewA" alt="ランドセルAの写真プレビュー">
+            </div>
+          </div>
+
+          <div class="extra-box">
+            <h3 class="extra-title">写真観察入力（横写真）</h3>
+            <div id="photoObsA"></div>
+          </div>
+
+          <div class="extra-box">
+            <h3 class="extra-title">親の写真or目視チェックリスト</h3>
+            <div id="questionsA"></div>
+          </div>
+
+          <div class="extra-box">
+            <h3 class="extra-title">メモ（任意）</h3>
+            <textarea id="memoA" placeholder="例：&#10;・背中少し浮いてた&#10;・本人は軽いって言ってた&#10;・見た目めっちゃ好き"></textarea>
+          </div>
+
+        </article>
+
+        <article class="bag-card">
+          <h2 class="bag-title"><span class="badge">B</span>ランドセルB</h2>
+          <div class="name-input">
+            <label for="nameB">名前（任意）</label>
+            <input id="nameB" type="text" placeholder="例：しっかりモデルB">
+          </div>
+
+          <div class="extra-box">
+            <h3 class="extra-title">横向き写真アップ（任意）</h3>
+            <p class="photo-hint">顔は映さないでください / 背景はシンプル推奨 / これは参考チェックです</p>
+            <input id="photoB" type="file" accept="image/*">
+            <div class="photo-preview" id="previewWrapB" hidden>
+              <img id="previewB" alt="ランドセルBの写真プレビュー">
+            </div>
+          </div>
+
+          <div class="extra-box">
+            <h3 class="extra-title">写真観察入力（横写真）</h3>
+            <div id="photoObsB"></div>
+          </div>
+
+          <div class="extra-box">
+            <h3 class="extra-title">親の写真or目視チェックリスト</h3>
+            <div id="questionsB"></div>
+          </div>
+
+          <div class="extra-box">
+            <h3 class="extra-title">メモ（任意）</h3>
+            <textarea id="memoB" placeholder="例：&#10;・背中少し浮いてた&#10;・本人は軽いって言ってた&#10;・見た目めっちゃ好き"></textarea>
+          </div>
+
+        </article>
+      </section>
+
+      <section class="actions">
+        <button type="button" class="btn-primary" id="calcBtn">結果を表示する</button>
+        <button type="reset" class="btn-secondary" id="resetBtn">入力をリセット</button>
+      </section>
+    </form>
+
+    <section class="result-wrap">
+      <section class="result" id="result" aria-live="polite">
+        <h2>結果カード</h2>
+        <p class="score-line">入力後に「結果を表示する」を押してください。</p>
+        <div class="notes">
+          <div>スクリーンショットで保存してください。</div>
+          <div>これは医療診断ではなく、試着時の参考チェックです。</div>
+          <div>最終判断は実際の背負い心地や再試着も参考にしてください。</div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const checkDefs = [
+      {
+        key: "fit",
+        label: "1. 背中のフィット感",
+        options: [
+          { text: "ぴったり", score: 2 },
+          { text: "少し隙間あり", score: 1 },
+          { text: "明らかに隙間あり", score: 0 }
+        ]
+      },
+      {
+        key: "belt",
+        label: "2. 肩ベルト",
+        options: [
+          { text: "しっかり沿う", score: 2 },
+          { text: "少し浮く", score: 1 },
+          { text: "明らかに合っていない", score: 0 }
+        ]
+      },
+      {
+        key: "walk",
+        label: "3. 歩いたとき",
+        options: [
+          { text: "自然", score: 2 },
+          { text: "少し違和感", score: 1 },
+          { text: "不自然（前傾・揺れ）", score: 0 }
+        ]
+      },
+      {
+        key: "reaction",
+        label: "4. 本人の反応",
+        options: [
+          { text: "かっこいい・気に入った", score: 2 },
+          { text: "普通", score: 1 },
+          { text: "微妙・無反応", score: 0 }
+        ]
+      }
+    ];
+
+    const photoObsDefs = [
+      {
+        key: "center",
+        label: "1. 重心の位置",
+        options: [
+          { text: "高い", value: "high" },
+          { text: "普通", value: "normal" },
+          { text: "低い", value: "low" }
+        ]
+      },
+      {
+        key: "lean",
+        label: "2. 前傾姿勢",
+        options: [
+          { text: "なし", value: "none" },
+          { text: "少しある", value: "slight" },
+          { text: "はっきりある", value: "strong" }
+        ]
+      },
+      {
+        key: "position",
+        label: "3. ランドセルの位置",
+        options: [
+          { text: "背中上部に収まる", value: "high" },
+          { text: "普通", value: "normal" },
+          { text: "下がり気味", value: "low" }
+        ]
+      }
+    ];
+
+    const checksA = document.getElementById("questionsA");
+    const checksB = document.getElementById("questionsB");
+    const photoObsA = document.getElementById("photoObsA");
+    const photoObsB = document.getElementById("photoObsB");
+    const calcBtn = document.getElementById("calcBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const resultArea = document.getElementById("result");
+    const photoUrls = { A: "", B: "" };
+
+    function renderGroups(targetEl, prefix, defs, mode) {
+      defs.forEach((q) => {
+        const box = document.createElement("fieldset");
+        box.className = "question";
+        box.innerHTML = `<legend class="q-title">${q.label}</legend>`;
+
+        const optionWrap = document.createElement("div");
+        optionWrap.className = "options";
+
+        q.options.forEach((opt, oi) => {
+          const id = `${prefix}_${q.key}_${oi}`;
+          const value = mode === "score" ? opt.score : opt.value;
+          const row = document.createElement("label");
+          row.className = "option";
+          row.innerHTML = `
+            <input type="radio" name="${prefix}_${q.key}" id="${id}" value="${value}">
+            <span>${opt.text}</span>
+          `;
+          optionWrap.appendChild(row);
+        });
+
+        box.appendChild(optionWrap);
+        targetEl.appendChild(box);
+      });
+    }
+
+    function getChecklist(prefix) {
+      let total = 0;
+      let count = 0;
+      const answers = {};
+      checkDefs.forEach((q) => {
+        const selected = document.querySelector(`input[name="${prefix}_${q.key}"]:checked`);
+        answers[q.key] = selected ? Number(selected.value) : null;
+        if (selected) {
+          total += Number(selected.value);
+          count += 1;
+        }
+      });
+      return { total, count, answers };
+    }
+
+    function getPhotoObs(prefix) {
+      const obs = {};
+      let selectedCount = 0;
+      photoObsDefs.forEach((q) => {
+        const selected = document.querySelector(`input[name="${prefix}_${q.key}"]:checked`);
+        obs[q.key] = selected ? selected.value : "";
+        if (selected) selectedCount += 1;
+      });
+
+      const input = document.getElementById(`photo${prefix}`);
+      const img = document.getElementById(`preview${prefix}`);
+      return {
+        obs,
+        selectedCount,
+        hasPhoto: Boolean(input.files && input.files[0]),
+        previewSrc: img.getAttribute("src") || ""
+      };
+    }
+
+    function getState(score) {
+      if (score >= 7) return { text: "フィット良好", cls: "good" };
+      if (score >= 4) return { text: "再調整・比較推奨", cls: "warn" };
+      return { text: "フィット注意", cls: "bad" };
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function formatMultiline(value) {
+      return escapeHtml(value).replace(/\n/g, "<br>");
+    }
+
+    function generatePhotoComment(data) {
+      const lines = [];
+      if (!data.hasPhoto && data.selectedCount === 0) {
+        return "横向き写真と写真観察入力は未登録です。必要に応じて追加して確認してください。";
+      }
+
+      if (data.obs.center === "high") lines.push("重心は比較的高く、安定して見えます。");
+      if (data.obs.center === "normal") lines.push("重心位置はおおむね標準的に見えます。");
+      if (data.obs.center === "low") lines.push("重心がやや低めに見えるため、再調整がおすすめです。");
+
+      if (data.obs.lean === "none") lines.push("前傾姿勢は目立たず、自然に見えます。");
+      if (data.obs.lean === "slight") lines.push("少し前傾気味に見えるため、歩行時の様子も確認してください。");
+      if (data.obs.lean === "strong") lines.push("前傾がはっきり見えるため、別モデルとの比較もおすすめです。");
+
+      if (data.obs.position === "high") lines.push("ランドセルは背中上部に収まり、位置は良好に見えます。");
+      if (data.obs.position === "normal") lines.push("ランドセルの位置は標準的に見えます。");
+      if (data.obs.position === "low") lines.push("ランドセルがやや下がって見えるため、再調整がおすすめです。");
+
+      if (!lines.length && data.hasPhoto) {
+        return "横向き写真は登録されています。写真観察入力を選ぶとコメントが詳しくなります。";
+      }
+      return lines.slice(0, 3).join(" ");
+    }
+
+    function generateOverallComment(score, photoComment) {
+      if (score >= 7) return `総合的にフィット感は良好です。${photoComment}`;
+      if (score >= 4) return `調整次第で改善が期待できます。${photoComment}`;
+      return `現時点では要再確認です。${photoComment}`;
+    }
+
+    function setPhotoPreview(prefix) {
+      const input = document.getElementById(`photo${prefix}`);
+      const wrap = document.getElementById(`previewWrap${prefix}`);
+      const img = document.getElementById(`preview${prefix}`);
+
+      if (photoUrls[prefix]) {
+        URL.revokeObjectURL(photoUrls[prefix]);
+        photoUrls[prefix] = "";
+      }
+
+      if (input.files && input.files[0]) {
+        const blobUrl = URL.createObjectURL(input.files[0]);
+        photoUrls[prefix] = blobUrl;
+        img.src = blobUrl;
+        wrap.hidden = false;
+      } else {
+        img.removeAttribute("src");
+        wrap.hidden = true;
+      }
+    }
+
+    function resetPhotoPreview(prefix) {
+      const wrap = document.getElementById(`previewWrap${prefix}`);
+      const img = document.getElementById(`preview${prefix}`);
+      if (photoUrls[prefix]) {
+        URL.revokeObjectURL(photoUrls[prefix]);
+        photoUrls[prefix] = "";
+      }
+      img.removeAttribute("src");
+      wrap.hidden = true;
+    }
+
+    function buildBag(prefix, fallbackName) {
+      const name = document.getElementById(`name${prefix}`).value.trim() || fallbackName;
+      const memo = document.getElementById(`memo${prefix}`).value.trim();
+      const check = getChecklist(prefix);
+      const photo = getPhotoObs(prefix);
+      const photoComment = generatePhotoComment(photo);
+      const overallComment = generateOverallComment(check.total, photoComment);
+      const state = getState(check.total);
+      return { name, memo, check, photoComment, overallComment, state };
+    }
+
+    function displayResult() {
+      const bagA = buildBag("A", "ランドセルA");
+      const bagB = buildBag("B", "ランドセルB");
+
+      if (bagA.check.count < checkDefs.length || bagB.check.count < checkDefs.length) {
+        alert("A/Bそれぞれの親の目視チェックリストをすべて選択してください。");
+        return;
+      }
+
+      let compare = "";
+      if (bagA.check.total > bagB.check.total) compare = `よりフィットしていそうなのは「${bagA.name}」です。`;
+      if (bagB.check.total > bagA.check.total) compare = `よりフィットしていそうなのは「${bagB.name}」です。`;
+      if (bagA.check.total === bagB.check.total) compare = "どちらも要再確認です。再調整して比較してください。";
+
+      const safeA = escapeHtml(bagA.name);
+      const safeB = escapeHtml(bagB.name);
+      resultArea.innerHTML = `
+        <h2>結果カード（スクリーンショット用）</h2>
+
+        <section class="bag-result">
+          <p class="score-line"><strong>${safeA}</strong></p>
+          <p class="score-line score-main">合計点：${bagA.check.total} / 8 <span class="status ${bagA.state.cls}">${bagA.state.text}</span></p>
+          <div class="comment-box"><strong>写真コメント：</strong>${escapeHtml(bagA.photoComment)}</div>
+          <div class="comment-box"><strong>メモ：</strong>${bagA.memo ? formatMultiline(bagA.memo) : "なし"}</div>
+          <div class="comment-box"><strong>総合コメント：</strong>${escapeHtml(bagA.overallComment)}</div>
+        </section>
+
+        <section class="bag-result">
+          <p class="score-line"><strong>${safeB}</strong></p>
+          <p class="score-line score-main">合計点：${bagB.check.total} / 8 <span class="status ${bagB.state.cls}">${bagB.state.text}</span></p>
+          <div class="comment-box"><strong>写真コメント：</strong>${escapeHtml(bagB.photoComment)}</div>
+          <div class="comment-box"><strong>メモ：</strong>${bagB.memo ? formatMultiline(bagB.memo) : "なし"}</div>
+          <div class="comment-box"><strong>総合コメント：</strong>${escapeHtml(bagB.overallComment)}</div>
+        </section>
+
+        <p class="comparison">${escapeHtml(compare)}</p>
+        <div class="notes">
+          <div>スクリーンショットで保存してください。</div>
+          <div>これは医療診断ではなく、試着時の参考チェックです。</div>
+          <div>最終判断は実際の背負い心地や再試着も参考にしてください。</div>
+        </div>
+      `;
+
+      resultArea.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function resetResult() {
+      resultArea.innerHTML = `
+        <h2>結果カード</h2>
+        <p class="score-line">入力後に「結果を表示する」を押してください。</p>
+        <div class="notes">
+          <div>スクリーンショットで保存してください。</div>
+          <div>これは医療診断ではなく、試着時の参考チェックです。</div>
+          <div>最終判断は実際の背負い心地や再試着も参考にしてください。</div>
+        </div>
+      `;
+    }
+
+    renderGroups(checksA, "A", checkDefs, "score");
+    renderGroups(checksB, "B", checkDefs, "score");
+    renderGroups(photoObsA, "A", photoObsDefs, "value");
+    renderGroups(photoObsB, "B", photoObsDefs, "value");
+
+    document.getElementById("photoA").addEventListener("change", () => setPhotoPreview("A"));
+    document.getElementById("photoB").addEventListener("change", () => setPhotoPreview("B"));
+    calcBtn.addEventListener("click", displayResult);
+    resetBtn.addEventListener("click", () => {
+      setTimeout(() => {
+        resetPhotoPreview("A");
+        resetPhotoPreview("B");
+        resetResult();
+      }, 0);
+    });
+  </script>
+</body>
+</html>
