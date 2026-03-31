@@ -1,74 +1,118 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>本日の一皿、執事より</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f7f7f7;
-      text-align: center;
-      padding: 30px;
-    }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 500px;
-      margin: 20px auto;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-    button {
-      margin: 10px;
-      padding: 12px 18px;
-      border-radius: 8px;
-      border: none;
-      background: #333;
-      color: white;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    button:hover {
-      opacity: 0.8;
-    }
-    select {
-      padding: 8px;
-      margin: 10px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>本日の一皿、執事より</title>
+
+<style>
+body {
+  margin: 0;
+  padding: 20px 16px 40px;
+  background: #f5f1ea;
+  color: #2f2a26;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  line-height: 1.7;
+}
+
+.container {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: #5a514b;
+  margin-bottom: 24px;
+}
+
+.select-group {
+  margin-bottom: 16px;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-top: 6px;
+  font-size: 0.95rem;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: #3f352f;
+  color: white;
+  font-size: 1rem;
+  margin-top: 12px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.card {
+  background: #fffdf9;
+  border-radius: 18px;
+  padding: 20px 16px;
+  margin-top: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  text-align: left;
+}
+
+.retry {
+  background: #8c7a6b;
+}
+</style>
 </head>
+
 <body>
 
-<h2>本日の一皿、執事より</h2>
+<div class="container">
 
-<p>ご自宅でのおひとりランチに、<br>
-執事が軽やかなご提案をいたします</p>
+<h1>本日の一皿、執事より</h1>
 
-<div>
-  <div>
-    <label>お疲れ度：</label>
-    <select id="tired">
-      <option>まだ動けます</option>
-      <option>やや疲れております</option>
-      <option>限界でございます</option>
-    </select>
-  </div>
+<p class="description">
+ご自宅でのおひとりランチに、<br>
+執事が軽やかなご提案をいたします
+</p>
 
-  <div>
-    <label>楽したい度：</label>
-    <select id="lazy">
-      <option>少しは手を動かします</option>
-      <option>なるべく省きたいです</option>
-      <option>一切動きたくありません</option>
-    </select>
-  </div>
+<div class="select-group">
+<label>お疲れ度</label>
+<select id="tired">
+  <option>まだ動けます</option>
+  <option>やや疲れております</option>
+  <option>限界でございます</option>
+</select>
+</div>
+
+<div class="select-group">
+<label>楽したい度</label>
+<select id="lazy">
+  <option>少しは手を動かします</option>
+  <option>なるべく省きたいです</option>
+  <option>一切動きたくありません</option>
+</select>
 </div>
 
 <button onclick="generate()">本日の一皿を賜る</button>
 
-<div class="card" id="result" style="display:none;"></div>
+<div id="result" class="card" style="display:none;"></div>
 
-<button onclick="generate()" id="retry" style="display:none;">他のご提案を</button>
+<button onclick="generate()" id="retry" class="retry" style="display:none;">
+他のご提案を
+</button>
+
+</div>
 
 <script>
 const normal = [
@@ -132,7 +176,7 @@ function generate() {
 
   document.getElementById("result").innerHTML = item;
   document.getElementById("result").style.display = "block";
-  document.getElementById("retry").style.display = "inline-block";
+  document.getElementById("retry").style.display = "block";
 }
 </script>
 
